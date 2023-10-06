@@ -1,0 +1,2870 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../jupyterhub/">
+      
+      
+        <link rel="next" href="../kasten-k10/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>Karpenter - Amazon EKS Blueprints Quick Start</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bd3936ea.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#karpenter-add-on" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Amazon EKS Blueprints Quick Start" class="md-header__button md-logo" aria-label="Amazon EKS Blueprints Quick Start" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Amazon EKS Blueprints Quick Start
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Karpenter
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aws-quickstart/cdk-eks-blueprints" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aws-quickstart/cdk-eks-blueprints
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Amazon EKS Blueprints Quick Start" class="md-nav__button md-logo" aria-label="Amazon EKS Blueprints Quick Start" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Amazon EKS Blueprints Quick Start
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aws-quickstart/cdk-eks-blueprints" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aws-quickstart/cdk-eks-blueprints
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cluster-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multi-Cluster Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../core-concepts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Core Concepts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../opa-gatekeeper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OPA Gatekeeper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Teams
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Teams
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../teams/teams/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Teams
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../teams/emr-eks-team/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    EMR on EKS Team
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../teams/aws-batch-on-eks-team/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AWS Batch on EKS Team
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../teams/geneai-team/bedrock-team.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bedrock Team
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pipelines/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pipelines
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    AddOns
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            AddOns
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ack-addon/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ACK
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adot-addon/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADOT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../amp-addon/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AMP ADOT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app-mesh/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AWS App Mesh
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apache-airflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Apache Airflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws-batch-on-eks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AWS Batch for EKS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../argo-cd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ArgoCD
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws-for-fluent-bit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AWS For Fluent Bit
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws-load-balancer-controller/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AWS Load Balancer Controller
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws-node-termination-handler/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AWS Node Termination Handler
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws-privateca-issuer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AWS Private CA Issuer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backstage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Backstage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calico/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Calico
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calico-operator/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Calico Operator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cert-manager/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Certificate Manager
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloudwatch-adot-addon/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CloudWatch ADOT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cluster-autoscaler/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cluster Autoscaler
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../container-insights/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Container Insights
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../coredns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CoreDns
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datadog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Datadog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/dynatrace-oss/dynatrace-eks-blueprints-addon" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dynatrace
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ebs-csi-driver/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    EBS CSI Driver
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../efs-csi-driver/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    EFS CSI Driver
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external-dns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    External DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external-secrets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    External Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../emr-eks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    EMR on EKS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fluxcd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FluxCD
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gmaestro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gmaestro
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gpu-operator/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NVIDIA GPU Operator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../grafana-operator/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Grafana Operator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instana-addon/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IBM Instana
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../istio-base/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Istio Base
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../istio-control-plane/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Istio Control Plane
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jupyterhub/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    JupyterHub
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Karpenter
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Karpenter
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functionality" class="md-nav__link">
+    Functionality
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-karpenter" class="md-nav__link">
+    Using Karpenter
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-with-a-sample-deployment" class="md-nav__link">
+    Testing with a sample deployment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrade-path" class="md-nav__link">
+    Upgrade Path
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kasten-k10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kasten
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../keda/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Keda
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/keptn-sandbox/keptn-eks-blueprints-addon" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Keptn
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../knative-operator/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Knative
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/komodorio/komodor-eks-blueprints-addon" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Komodor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kube-proxy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kube Proxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubecost/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubecost
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubeflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubeflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubevious/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubevious
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kube-state-metrics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kube State Metrics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metrics-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metrics Server
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../newrelic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    New Relic
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nginx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nginx
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../opa-gatekeeper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OPA Gatekeeper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paralus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Paralus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pixie/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pixie
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prometheus-node-exporter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Prometheus Node Exporter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rafay/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rafay
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secrets-store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secrets Store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/snyk-partners/snyk-monitor-eks-blueprints-addon" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Snyk
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssm-agent/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SSM Agent
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../upbound-universal-crossplane/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Upbound Universal Crossplane
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../velero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Velero
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vpc-cni/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vpc Cni
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xray/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AWS XRay
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xray-adot-addon/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AWS XRay ADOT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Internal
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Internal
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../internal/ci/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CodeBuild CI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../internal/input-validations-framework-readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Input Validation Framework
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../internal/readme-internal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Readme
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cluster Providers
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Cluster Providers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cluster-providers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cluster-providers/generic-cluster-provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Generic Cluster Provider
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cluster-providers/asg-cluster-provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ASG Cluster Provider
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cluster-providers/mng-cluster-provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MNG Cluster Provider
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cluster-providers/fargate-cluster-provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fargate Cluster Provider
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cluster-providers/import-cluster-provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Import Cluster Provider
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Resource Providers
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Resource Providers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resource-providers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resource-providers/amp-provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AMP Resource Provider
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resource-providers/certificate-providers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Certificate Resource Providers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resource-providers/efs-providers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    EFS Resource Providers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resource-providers/hosted-zone-providers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hosted Zone Resource Providers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resource-providers/iam-role-providers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IAM Role Resource Providers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resource-providers/kms-key-providers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KMS Key Resource Providers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resource-providers/s3-providers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    S3 Bucket Resource Providers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resource-providers/vpc-providers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VPC Resource Providers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Builders
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Builders
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../builders/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../builders/bedrock-builder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bedrock Builder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../builders/graviton-builder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Graviton Builder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../builders/gpu-builder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GPU Builder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../builders/observability-builder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Observability Builder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../builders/windows-builder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows Builder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extensibility/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Extensibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functionality" class="md-nav__link">
+    Functionality
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-karpenter" class="md-nav__link">
+    Using Karpenter
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-with-a-sample-deployment" class="md-nav__link">
+    Testing with a sample deployment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrade-path" class="md-nav__link">
+    Upgrade Path
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="karpenter-add-on">Karpenter Add-on<a class="headerlink" href="#karpenter-add-on" title="Permanent link">&para;</a></h1>
+<p>Karpenter add-on is based on the <a href="https://github.com/aws/karpenter">Karpenter</a> open source node provisioning project. It provides a more efficient and cost-effective way to manage workloads by launching just the right compute resources to handle a cluster's application.</p>
+<p>Karpenter works by:</p>
+<ul>
+<li>Watching for pods that the Kubernetes scheduler has marked as unschedulable,</li>
+<li>Evaluating scheduling constraints (resource requests, nodeselectors, affinities, tolerations, and topology spread constraints) requested by the pods,</li>
+<li>Provisioning nodes that meet the requirements of the pods,</li>
+<li>Scheduling the pods to run on the new nodes, and</li>
+<li>Removing the nodes when the nodes are no longer needed</li>
+</ul>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>There is no support for utilizing both Cluster Autoscaler <strong>and</strong> Karpenter. Therefore, any addons list that has both will result in an error <code>Deploying &lt;name of your stack&gt; failed due to conflicting add-on: ClusterAutoscalerAddOn.</code>.</p>
+</li>
+<li>
+<p>(If using Spot), EC2 Spot Service Linked Role should be created. See <a href="https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html">here</a> for more details.</p>
+</li>
+</ol>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="s1">&#39;source-map-support/register&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">cdk</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;aws-cdk-lib&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">blueprints</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@aws-quickstart/eks-blueprints&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">cdk</span><span class="p">.</span><span class="nx">App</span><span class="p">();</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">karpenterAddOn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">blueprints</span><span class="p">.</span><span class="nx">addons</span><span class="p">.</span><span class="nx">KarpenterAddOn</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">requirements</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;node.kubernetes.io/instance-type&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">op</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;In&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">vals</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;m5.2xlarge&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;topology.kubernetes.io/zone&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">op</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;NotIn&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">vals</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;us-west-2c&#39;</span><span class="p">]},</span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;kubernetes.io/arch&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">op</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;In&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">vals</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;amd64&#39;</span><span class="p">,</span><span class="s1">&#39;arm64&#39;</span><span class="p">]},</span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;karpenter.sh/capacity-type&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">op</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;In&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">vals</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;spot&#39;</span><span class="p">,</span><span class="s1">&#39;on-demand&#39;</span><span class="p">]},</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nx">subnetTags</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;Name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blueprint-construct-dev/blueprint-construct-dev-vpc/PrivateSubnet1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">securityGroupTags</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;kubernetes.io/cluster/blueprint-construct-dev&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;owned&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">taints</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">    </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;workload&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">effect</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;NoSchedule&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">}],</span>
+<span class="w">  </span><span class="nx">amiFamily</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;AL2&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">amiSelector</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;karpenter.sh/discovery/MyClusterName&quot;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;*&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">consolidation</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">enabled</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">ttlSecondsUntilExpired</span><span class="o">:</span><span class="w"> </span><span class="kt">2592000</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">weight</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">interruptionHandling</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">tags</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">schedule</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;always-on&#39;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">blueprint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">blueprints</span><span class="p">.</span><span class="nx">EksBlueprint</span><span class="p">.</span><span class="nx">builder</span><span class="p">()</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">version</span><span class="p">(</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">addOns</span><span class="p">(</span><span class="nx">karpenterAddOn</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">build</span><span class="p">(</span><span class="nx">app</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;my-stack-name&#39;</span><span class="p">);</span>
+</code></pre></div>
+<p>The add-on automatically sets the following Helm Chart <a href="https://github.com/aws/karpenter/tree/main/charts/karpenter#values">values</a>, and it is <strong>highly recommended</strong> not to pass these values in (as it will result in errors):
+- settings.aws.defaultInstanceProfile
+- settings.aws.clusterEndpoint
+- settings.aws.clusterName
+- settings.aws.interruptionQueueName (if interruption handling is enabled)
+- serviceAccount.create
+- serviceAccount.name
+- serviceAccount.annotations.eks.amazonaws.com/role-arn</p>
+<p>To validate that Karpenter add-on is running ensure that the add-on deployments for the controller and the webhook are in <code>RUNNING</code> state:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Assuming add-on is installed in the karpenter namespace.</span>
+$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>po<span class="w"> </span>-n<span class="w"> </span>karpenter
+NAME<span class="w">                                          </span>READY<span class="w">   </span>STATUS<span class="w">    </span>RESTARTS<span class="w">   </span>AGE
+blueprints-addon-karpenter-54fd978b89-hclmp<span class="w">   </span><span class="m">2</span>/2<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>99m
+</code></pre></div>
+<h2 id="functionality">Functionality<a class="headerlink" href="#functionality" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Creates Karpenter Node Role, Karpenter Instance Profile, and Karpenter Controller Policy (Please see Karpenter documentation <a href="https://karpenter.sh/docs/getting-started/">here</a> for more details on what is required and why).</li>
+<li>Creates <code>karpenter</code> namespace.</li>
+<li>Creates Kubernetes Service Account, and associate AWS IAM Role with Karpenter Controller Policy attached using <a href="https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-enable-IAM.html">IRSA</a>.</li>
+<li>Deploys Karpenter helm chart in the <code>karpenter</code> namespace, configuring cluster name and cluster endpoint on the controller by default.</li>
+<li>(Optionally) provisions a default Karpenter Provisioner and AWSNodeTemplate CRD based on user-provided parameters such as <a href="https://karpenter.sh/docs/concepts/provisioners/#specrequirements">spec.requirements</a>, <a href="https://karpenter.sh/docs/concepts/instance-types/">AMI type</a>,<a href="https://karpenter.sh/docs/concepts/provisioners/#specweight">weight</a>, <a href="https://karpenter.sh/v0.28/concepts/node-templates/#specsubnetselector">Subnet Selector</a>, <a href="https://karpenter.sh/v0.28/concepts/node-templates/#specsecuritygroupselector">Security Group Selector</a> and <a href="https://karpenter.sh/v0.28/concepts/node-templates/#spectags">Tags</a>. If created, the provisioner will discover the EKS VPC subnets and security groups to launch the nodes with.</li>
+</ol>
+<p><strong>NOTE:</strong>
+1. The default provisioner is created only if both the subnet tags and the security group tags are provided.
+2. Provisioner spec requirement fields are not necessary, as karpenter will dynamically choose (i.e. leaving instance-type blank will let karpenter choose appropriate sizing).
+3. Consolidation, which is a flag that enables , is supported on versions 0.15.0 and later. It is also mutually exclusive with <code>ttlSecondsAfterEmpty</code>, so if you provide both properties, the addon will throw an error.
+4. Weight, which is a property to prioritize provisioners based on weight, is supported on versions 0.16.0 and later. Addon will throw an error if weight is provided for earlier versions.
+5. Interruption Handling, which is a native way to handle interruption due to involuntary interruption events, is supported on versions 0.19.0 and later. For interruption handling in the earlier versions, Karpenter supports using AWS Node Interruption Handler (which you will need to add as an add-on and <strong><em>must be in add-on array after the Karpenter add-on</em></strong> for it to work.
+6. Karpenter allows overrides of the default "Name" tag but does not allow overrides to restricted domain (such as "karpenter.sh", "karpenter.k8s.aws", and "kubernetes.io/cluster").</p>
+<h2 id="using-karpenter">Using Karpenter<a class="headerlink" href="#using-karpenter" title="Permanent link">&para;</a></h2>
+<p>To use Karpenter, you need to provision a Karpenter <a href="https://karpenter.sh/docs/concepts/provisioners/">provisioner CRD</a>. A single provisioner is capable of handling many different pod shapes.</p>
+<p>This can be done in 2 ways:</p>
+<ol>
+<li>
+<p>Provide the properties as show in <a href="#usage">Usage</a>. If subnet tags and security group tags are not provided at deploy time, the add-on will be installed without a Provisioner.</p>
+</li>
+<li>
+<p>Use <code>kubectl</code> to apply a sample provisioner manifest:
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="s">apiVersion: karpenter.sh/v1alpha5</span>
+<span class="s">kind: Provisioner</span>
+<span class="s">metadata:</span>
+<span class="s">  name: default</span>
+<span class="s">spec:</span>
+<span class="s">  requirements:</span>
+<span class="s">    - key: &quot;node.kubernetes.io/instance-type&quot;</span>
+<span class="s">      operator: In</span>
+<span class="s">      values: [&quot;m5.2xlarge&quot;]</span>
+<span class="s">    - key: &quot;topology.kubernetes.io/zone&quot;</span>
+<span class="s">      operator: In</span>
+<span class="s">      values: [&quot;us-east-1c&quot;]</span>
+<span class="s">    - key: &quot;kubernetes.io/arch&quot;</span>
+<span class="s">      operator: In</span>
+<span class="s">      values: [&quot;arm64&quot;, &quot;amd64&quot;]</span>
+<span class="s">    - key: &quot;karpenter.sh/capacity-type&quot;</span>
+<span class="s">      operator: In</span>
+<span class="s">      values: [&quot;spot&quot;, &quot;on-demand&quot;]</span>
+<span class="s">  provider:</span>
+<span class="s">    instanceProfile: &lt;&lt;Name of your Instance Profile&gt;&gt;</span>
+<span class="s">    subnetSelector:</span>
+<span class="s">      Name: blueprint-construct-dev/blueprint-construct-dev-vpc/PrivateSubnet1</span>
+<span class="s">    securityGroupSelector:</span>
+<span class="s">      &quot;kubernetes.io/cluster/blueprint-construct-dev&quot;: &quot;owned&quot;</span>
+<span class="s">  ttlSecondsAfterEmpty: 30</span>
+<span class="s">EOF</span>
+</code></pre></div></p>
+</li>
+</ol>
+<p>If you choose to create a provisioner manually, you <strong>MUST</strong> provide the tags that match the subnet and the security group that you want to use.</p>
+<h2 id="testing-with-a-sample-deployment">Testing with a sample deployment<a class="headerlink" href="#testing-with-a-sample-deployment" title="Permanent link">&para;</a></h2>
+<p>Now that the provisioner is deployed, Karpenter is active and ready to provision nodes. Create some pods using a deployment:</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="s">apiVersion: apps/v1</span>
+<span class="s">kind: Deployment</span>
+<span class="s">metadata:</span>
+<span class="s">  name: inflate</span>
+<span class="s">spec:</span>
+<span class="s">  replicas: 0</span>
+<span class="s">  selector:</span>
+<span class="s">    matchLabels:</span>
+<span class="s">      app: inflate</span>
+<span class="s">  template:</span>
+<span class="s">    metadata:</span>
+<span class="s">      labels:</span>
+<span class="s">        app: inflate</span>
+<span class="s">    spec:</span>
+<span class="s">      terminationGracePeriodSeconds: 0</span>
+<span class="s">      containers:</span>
+<span class="s">        - name: inflate</span>
+<span class="s">          image: public.ecr.aws/eks-distro/kubernetes/pause:3.2</span>
+<span class="s">          resources:</span>
+<span class="s">            requests:</span>
+<span class="s">              cpu: 1</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Now scale the deployment:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>scale<span class="w"> </span>deployment<span class="w"> </span>inflate<span class="w"> </span>--replicas<span class="w"> </span><span class="m">10</span>
+</code></pre></div>
+<p>The provisioner will then start deploying more nodes to deploy the scaled replicas. You can verify by either looking at the karpenter controller logs,</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>-n<span class="w"> </span>karpenter<span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>karpenter<span class="w"> </span>-l<span class="w"> </span><span class="nv">karpenter</span><span class="o">=</span>controller<span class="w"> </span>-o<span class="w"> </span>name<span class="k">)</span>
+</code></pre></div>
+<p>or, by looking at the nodes being created:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+</code></pre></div>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<p>The following are common troubleshooting issues observed when implementing Karpenter:</p>
+<ol>
+<li>
+<p>For Karpenter version older than <code>0.14.0</code> deployed on Fargate Profiles, <code>values.yaml</code> must be overridden, setting <code>dnsPolicy</code> to <code>Default</code>. Versions after <code>0.14.0</code> has <code>dnsPolicy</code> value set default to <code>Default</code>. This is to ensure CoreDNS is set correctly on Fargate nodes.</p>
+</li>
+<li>
+<p>With the upgrade to the new OCI registry starting with <code>v0.17.0</code>, if you try to upgrade you may get a following error:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code>Received response status [FAILED] from custom resource. Message returned: Error: b&#39;Error: path &quot;/tmp/tmpkxgr57q5/blueprints-addon-karpenter&quot; not found\n&#39; 
+</code></pre></div>
+<p>Karpenter, starting from the OCI registry versions, will untar the files under <code>karpenter</code> release name only. So if you have previous version deployed under a different release name, you will run into the above error. Therefore, in order to upgrade, you will have to take the following steps:</p>
+<ol>
+<li>Remove the existing add-on.</li>
+<li>Re-deploy the Karpenter add-on with the release name <code>karpenter</code>.</li>
+</ol>
+<h2 id="upgrade-path">Upgrade Path<a class="headerlink" href="#upgrade-path" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Using an older version of the Karptner add-on, you may notice the difference in the "provisionerSpecs" property:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>provisionerSpecs: {
+    &#39;node.kubernetes.io/instance-type&#39;: [&#39;m5.2xlarge&#39;],
+    &#39;topology.kubernetes.io/zone&#39;: [&#39;us-east-1c&#39;],
+    &#39;kubernetes.io/arch&#39;: [&#39;amd64&#39;,&#39;arm64&#39;],
+    &#39;karpenter.sh/capacity-type&#39;: [&#39;spot&#39;,&#39;on-demand&#39;],
+  },
+</code></pre></div>
+<p>This now changes to the "requirement" property:</p>
+<div class="highlight"><pre><span></span><code>requirements: [
+      { key: &#39;node.kubernetes.io/instance-type&#39;, op: &#39;In&#39;, vals: [&#39;m5.2xlarge&#39;] },
+      { key: &#39;topology.kubernetes.io/zone&#39;, op: &#39;NotIn&#39;, vals: [&#39;us-west-2c&#39;]},
+      { key: &#39;kubernetes.io/arch&#39;, op: &#39;In&#39;, vals: [&#39;amd64&#39;,&#39;arm64&#39;]},
+      { key: &#39;karpenter.sh/capacity-type&#39;, op: &#39;In&#39;, vals: [&#39;spot&#39;,&#39;on-demand&#39;]},
+  ],
+</code></pre></div>
+<p>The property is changed to align with the naming convention of the provisioner, and to allow multiple operators (In vs NotIn). The values correspond similarly between the two, with type change being the only difference.</p>
+<ol>
+<li>
+<p>Certain upgrades require reapplying the CRDs since Helm does not maintain the lifecycle of CRDs. Please see the <a href="https://karpenter.sh/v0.28/upgrade-guide/">official documentations</a> for details.</p>
+</li>
+<li>
+<p>Starting with v0.17.0, Karpenter's Helm chart package is stored in OCI (Open Container Initiative) registry. With this change, <a href="https://charts.karpenter.sh/">charts.karpenter.sh</a> is no longer updated to preserve older versions. You have to adjust for the following:</p>
+</li>
+<li>
+<p>The full URL needs to be present (including 'oci://').</p>
+</li>
+<li>
+<p>You need to append a <code>v</code> to the version number (i.e. v0.17.0, not 0.17.0)</p>
+</li>
+<li>
+<p>Starting with v0.22.0, Karpenter will no longer work on Kubernetes version prior to 1.21. Either upgrade your Kubernetes to 1.21 or later version and apply Karpenter, or use prior Karpenter versions.</p>
+</li>
+</ol>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["tabs"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+    
+  </body>
+</html>
